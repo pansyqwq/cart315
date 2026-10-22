@@ -2,7 +2,7 @@
 
 public class Spawner : MonoBehaviour
 {
-    public Pipes prefab;
+    public GameObject[] prefabs;
     public float spawnRate = 1f;
     public float minHeight = -1f;
     public float maxHeight = 2f;
@@ -20,9 +20,29 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        Pipes pipes = Instantiate(prefab, transform.position, Quaternion.identity);
-        pipes.transform.position += Vector3.up * Random.Range(minHeight, maxHeight);
-        pipes.gap = verticalGap;
-    }
+        if (prefabs == null || prefabs.Length == 0)
+            return;
 
+        int randomIndex = Random.Range(0, prefabs.Length);
+
+        if (prefabs[randomIndex] == null)
+            return;
+
+        GameObject obstacle = Instantiate(
+            prefabs[randomIndex],
+            transform.position,
+            Quaternion.identity
+        );
+
+        obstacle.transform.position +=
+            Vector3.up * Random.Range(minHeight, maxHeight);
+
+        // Only Pipes prefabs need a vertical gap
+        Pipes pipes = obstacle.GetComponent<Pipes>();
+
+        if (pipes != null)
+        {
+            pipes.gap = verticalGap;
+        }
+    }
 }
