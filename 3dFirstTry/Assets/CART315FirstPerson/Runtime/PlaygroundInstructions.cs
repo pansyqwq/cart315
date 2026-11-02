@@ -19,7 +19,7 @@ namespace Cart315.FirstPerson
             GUI.Label(new Rect(32, 68, 408, 94),
                 "WASD  Move     Shift  Sprint     Space  Jump\n" +
                 "Click  Capture mouse     Escape  Release\n" +
-                "Footsteps are silent until you add your own clips.", _body);
+                "Footsteps are silent, you are trapped in memeries.", _body);
             if (Cursor.lockState != CursorLockMode.Locked)
                 GUI.Label(new Rect(Screen.width / 2f - 120, Screen.height / 2f, 280, 35), "Click to explore", _title);
         }
