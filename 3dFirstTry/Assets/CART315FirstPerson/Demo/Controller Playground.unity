@@ -580,9 +580,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b186c3a633d7142158bc654abd6c1d58, type: 2}
+    - target: {fileID: 65702495048144492, guid: 1e50344730c394c7db272458b0669359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1e50344730c394c7db272458b0669359, type: 3}
       propertyPath: m_Name
       value: warehouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1e50344730c394c7db272458b0669359, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 945454400225530728, guid: 1e50344730c394c7db272458b0669359, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1333,6 +1341,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6500389095236949462, guid: 92efd63b18b726040a8e16e8643afde0, type: 3}
+      propertyPath: _cameraHolderTransform
+      value: 
+      objectReference: {fileID: 1597768786}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3133,6 +3145,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: interior
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 635b704259a044a03bd7d0e6b45498e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2153850011126782196, guid: 635b704259a044a03bd7d0e6b45498e2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.27
@@ -4215,6 +4231,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1597768786 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2021178655527167927, guid: 1e50344730c394c7db272458b0669359, type: 3}
+  m_PrefabInstance: {fileID: 231646050}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1652402128
 GameObject:
   m_ObjectHideFlags: 0
