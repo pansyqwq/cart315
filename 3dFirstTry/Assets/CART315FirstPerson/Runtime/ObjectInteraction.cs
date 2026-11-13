@@ -12,8 +12,16 @@ public class ObjectInteraction : MonoBehaviour
     [Header("Audio Settings")]
     public AudioSource audioToStop;
 
+    private static ObjectInteraction activeObject;
+
+    private Collider objectCollider;
+    private Renderer objectRenderer;
+
     void Start()
     {
+        objectCollider = GetComponent<Collider>();
+        objectRenderer = GetComponent<Renderer>();
+
         if (interactionPrompt != null)
             interactionPrompt.SetActive(false);
     }
@@ -22,56 +30,90 @@ public class ObjectInteraction : MonoBehaviour
     {
         if (player == null) return;
 
-        Collider objectCollider = GetComponent<Collider>();
+        if (activeObject == null ||
+            !activeObject.isActiveAndEnabled ||
+            !activeObject.IsPlayerNearby())
+        {
+            activeObject = null;
+        }
 
-        float distance;
+        if (IsPlayerNearby())
+        {
+            if (activeObject == null ||
+                GetDistance() < activeObject.GetDistance())
+            {
+                activeObject = this;
+            }
+        }
 
+        if (activeObject == this)
+        {
+            if (interactionPrompt != null)
+                interactionPrompt.SetActive(true);
+
+            if (Keyboard.current != null &&
+                Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                Interact();
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (interactionPrompt != null &&
+            activeObject == null)
+        {
+            interactionPrompt.SetActive(false);
+        }
+    }
+
+    float GetDistance()
+    {
         if (objectCollider != null)
         {
-            Vector3 closestPoint =
-                objectCollider.ClosestPoint(player.position);
-
-            distance = Vector3.Distance(
+            return Vector3.Distance(
                 player.position,
-                closestPoint
-            );
-        }
-        else
-        {
-            distance = Vector3.Distance(
-                player.position,
-                transform.position
+                objectCollider.ClosestPoint(player.position)
             );
         }
 
-        bool playerNearby = distance <= interactionDistance;
-
-        // Show interaction message
-        if (interactionPrompt != null)
-            interactionPrompt.SetActive(playerNearby);
-
-        // Press E to interact
-        if (playerNearby &&
-            Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame)
+        if (objectRenderer != null)
         {
-            Interact();
+            return Vector3.Distance(
+                player.position,
+                objectRenderer.bounds.ClosestPoint(player.position)
+            );
         }
+
+        return Vector3.Distance(
+            player.position,
+            transform.position
+        );
+    }
+
+    bool IsPlayerNearby()
+    {
+        return player != null &&
+               GetDistance() <= interactionDistance;
     }
 
     void Interact()
     {
-        // Hide interaction message
         if (interactionPrompt != null)
             interactionPrompt.SetActive(false);
 
-        // Stop the selected audio
         if (audioToStop != null)
-        {
             audioToStop.Stop();
-        }
 
-        // Delete the object
+        activeObject = null;
+
         Destroy(gameObject);
+    }
+
+    void OnDisable()
+    {
+        if (activeObject == this)
+            activeObject = null;
     }
 }
