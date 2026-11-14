@@ -1,4 +1,5 @@
 
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,9 @@ public class ObjectInteraction : MonoBehaviour
 
     [Header("Audio Settings")]
     public AudioSource audioToStop;
+
+    [Header("Diary Collection")]
+    public bool isDiaryPage = true;
 
     private static ObjectInteraction activeObject;
 
@@ -100,14 +104,34 @@ public class ObjectInteraction : MonoBehaviour
 
     void Interact()
     {
+        // Hide interaction prompt
         if (interactionPrompt != null)
             interactionPrompt.SetActive(false);
 
+        // Stop selected audio
         if (audioToStop != null)
             audioToStop.Stop();
 
+        // Add one diary page to the counter
+        if (isDiaryPage)
+        {
+            if (DiaryCounter.Instance != null)
+            {
+                DiaryCounter.Instance.AddPage();
+                Debug.Log("Diary page collected!");
+            }
+            else
+            {
+                Debug.LogWarning(
+                    "DiaryCounter manager not found!"
+                );
+            }
+        }
+
+        // Clear active interaction
         activeObject = null;
 
+        // Delete collected object
         Destroy(gameObject);
     }
 
