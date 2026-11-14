@@ -18,18 +18,24 @@ public class DiaryCounter : MonoBehaviour
     [Header("Close Diary Instruction")]
     public GameObject closeDiaryText;
 
+    [Header("Power Switch Objective")]
+    public GameObject powerSwitchText;
+
     private bool storyShown = false;
 
     void Awake()
     {
         Instance = this;
 
-        // Hide both UI elements immediately
         if (storyImage != null)
             storyImage.SetActive(false);
 
         if (closeDiaryText != null)
             closeDiaryText.SetActive(false);
+
+        // Hide the new objective at game start
+        if (powerSwitchText != null)
+            powerSwitchText.SetActive(false);
     }
 
     void Start()
@@ -39,7 +45,7 @@ public class DiaryCounter : MonoBehaviour
 
     void Update()
     {
-        // Press Q to close the diary
+        // Press Q to close diary
         if (storyImage != null &&
             storyImage.activeSelf &&
             Keyboard.current != null &&
@@ -58,7 +64,6 @@ public class DiaryCounter : MonoBehaviour
 
         UpdateCounter();
 
-        // Show diary when all 6 pages are collected
         if (foundPages >= totalPages && !storyShown)
         {
             ShowStory();
@@ -83,26 +88,20 @@ public class DiaryCounter : MonoBehaviour
             storyShown = true;
         }
 
-        // Show close instruction
         if (closeDiaryText != null)
-        {
             closeDiaryText.SetActive(true);
-        }
     }
 
     public void HideStory()
     {
-        // Hide story image
         if (storyImage != null)
-        {
             storyImage.SetActive(false);
-        }
 
-        // Hide close instruction
         if (closeDiaryText != null)
-        {
             closeDiaryText.SetActive(false);
-        }
+
+        // Show the next objective after pressing Q
+        if (powerSwitchText != null)
+            powerSwitchText.SetActive(true);
     }
 }
-
