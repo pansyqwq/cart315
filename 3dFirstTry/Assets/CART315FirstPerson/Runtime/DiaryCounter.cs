@@ -24,6 +24,11 @@ public class DiaryCounter : MonoBehaviour
     [Header("Emissive Panels")]
     public GameObject[] emissivePanels;
 
+    [Header("Power Switch Counter")]
+    public int totalSwitches = 3;
+    public int closedSwitches = 0;
+    public Text powerSwitchCounterText;
+
     private bool storyShown = false;
 
     void Awake()
@@ -50,6 +55,7 @@ public class DiaryCounter : MonoBehaviour
     void Start()
     {
         UpdateCounter();
+        UpdatePowerSwitchCounter();
     }
 
     void Update()
@@ -117,6 +123,26 @@ public class DiaryCounter : MonoBehaviour
         {
             if (panel != null)
                 panel.SetActive(true);
+        }
+    }
+
+    public void AddClosedSwitch()
+    {
+        if (closedSwitches >= totalSwitches)
+            return;
+
+        closedSwitches++;
+
+        UpdatePowerSwitchCounter();
+    }
+
+    void UpdatePowerSwitchCounter()
+    {
+        if (powerSwitchCounterText != null)
+        {
+            powerSwitchCounterText.text =
+                "Power Switches Closed: " +
+                closedSwitches + "/" + totalSwitches;
         }
     }
 }
