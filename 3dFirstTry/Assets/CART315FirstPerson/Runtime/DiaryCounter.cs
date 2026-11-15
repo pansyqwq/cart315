@@ -21,6 +21,9 @@ public class DiaryCounter : MonoBehaviour
     [Header("Power Switch Objective")]
     public GameObject powerSwitchText;
 
+    [Header("Emissive Panels")]
+    public GameObject[] emissivePanels;
+
     private bool storyShown = false;
 
     void Awake()
@@ -33,9 +36,15 @@ public class DiaryCounter : MonoBehaviour
         if (closeDiaryText != null)
             closeDiaryText.SetActive(false);
 
-        // Hide the new objective at game start
         if (powerSwitchText != null)
             powerSwitchText.SetActive(false);
+
+        // Hide all emissive panels at game start
+        foreach (GameObject panel in emissivePanels)
+        {
+            if (panel != null)
+                panel.SetActive(false);
+        }
     }
 
     void Start()
@@ -45,7 +54,6 @@ public class DiaryCounter : MonoBehaviour
 
     void Update()
     {
-        // Press Q to close diary
         if (storyImage != null &&
             storyImage.activeSelf &&
             Keyboard.current != null &&
@@ -100,8 +108,15 @@ public class DiaryCounter : MonoBehaviour
         if (closeDiaryText != null)
             closeDiaryText.SetActive(false);
 
-        // Show the next objective after pressing Q
+        // Show the new objective
         if (powerSwitchText != null)
             powerSwitchText.SetActive(true);
+
+        // Activate all 3 emissive panels
+        foreach (GameObject panel in emissivePanels)
+        {
+            if (panel != null)
+                panel.SetActive(true);
+        }
     }
 }
