@@ -8190,7 +8190,7 @@ MonoBehaviour:
   - {fileID: 1871748588}
   totalSwitches: 3
   closedSwitches: 0
-  powerSwitchCounterText: {fileID: 0}
+  powerSwitchCounterText: {fileID: 876134730}
 --- !u!1 &2093610469
 GameObject:
   m_ObjectHideFlags: 0
