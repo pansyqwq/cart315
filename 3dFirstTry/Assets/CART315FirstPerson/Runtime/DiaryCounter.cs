@@ -29,6 +29,12 @@ public class DiaryCounter : MonoBehaviour
     public int closedSwitches = 0;
     public Text powerSwitchCounterText;
 
+    [Header("Screen Darkness")]
+    public Image blackOverlay;
+    public float fadeSpeed = 1.5f;
+
+    private float targetAlpha = 0f;
+
     private bool storyShown = false;
 
     void Awake()
@@ -56,6 +62,12 @@ public class DiaryCounter : MonoBehaviour
     {
         UpdateCounter();
         UpdatePowerSwitchCounter();
+        if (blackOverlay != null)
+        {
+            Color color = blackOverlay.color;
+            color.a = 0f;
+            blackOverlay.color = color;
+        }
     }
 
     void Update()
@@ -66,6 +78,20 @@ public class DiaryCounter : MonoBehaviour
             Keyboard.current.qKey.wasPressedThisFrame)
         {
             HideStory();
+        }
+
+        // Smoothly fade the black overlay
+        if (blackOverlay != null)
+        {
+            Color color = blackOverlay.color;
+
+            color.a = Mathf.MoveTowards(
+                color.a,
+                targetAlpha,
+                fadeSpeed * Time.deltaTime
+            );
+
+            blackOverlay.color = color;
         }
     }
 
@@ -134,6 +160,11 @@ public class DiaryCounter : MonoBehaviour
         closedSwitches++;
 
         UpdatePowerSwitchCounter();
+
+        // Increase screen darkness
+        UpdateScreenDarkness();
+
+        Debug.Log("Power switches closed: " + closedSwitches);
     }
 
     void UpdatePowerSwitchCounter()
@@ -143,6 +174,31 @@ public class DiaryCounter : MonoBehaviour
             powerSwitchCounterText.text =
                 "Power Switches Closed: " +
                 closedSwitches + "/" + totalSwitches;
+        }
+    }
+
+    void UpdateScreenDarkness()
+    {
+        if (blackOverlay == null)
+            return;
+
+        switch (closedSwitches)
+        {
+            case 0:
+                targetAlpha = 0f;
+                break;
+
+            case 1:
+                targetAlpha = 0.5f;
+                break;
+
+            case 2:
+                targetAlpha = 0.7f;
+                break;
+
+            case 3:
+                targetAlpha = 1f;
+                break;
         }
     }
 }
